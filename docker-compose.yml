@@ -1,0 +1,12 @@
+# TODO: Create this Docker Compose file yourself as part of the DevOps exercise.
+# It should eventually run:
+# 1. frontend
+# 2. backend
+# 3. MySQL from Docker Hub
+#
+# Suggested environment variables for the backend:
+# DB_HOST=mysql
+# DB_PORT=3306
+# DB_USER=quizuser
+# DB_PASSWORD=quizpassword
+# DB_NAME=quiz_db
