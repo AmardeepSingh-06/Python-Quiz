@@ -1,2 +1,11 @@
-# TODO: Create this Dockerfile yourself as part of the DevOps exercise.
-# The frontend is currently served by a simple local/static server when testing without Docker.
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["python", "-m", "http.server", "3000"]
+
+
