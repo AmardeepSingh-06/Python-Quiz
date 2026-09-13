@@ -7,7 +7,7 @@ pipeline {
                 echo 'Cloning Code'
                 git url: "https://github.com/AmardeepSingh-06/Python-Quiz.git", branch:"main"
             }
-        
+        }
         stage('Build') {
             steps {
                 echo 'This is building the images'
