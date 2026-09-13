@@ -5,7 +5,6 @@ pipeline {
         stage('Hello') {
             steps {
                 echo 'Cloning Code'
-                sh 'id jenkins'
                 git url: "https://github.com/AmardeepSingh-06/Python-Quiz.git", branch:"main"
             }
         }
