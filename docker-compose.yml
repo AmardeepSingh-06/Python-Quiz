@@ -1,14 +1,16 @@
 services :
 
   frontend :
-    build : ./frontend
+    image : amardeepdevops/python-quiz-frontend:latest
+    container_name: python-frontend-container
     ports :
       - "3000:3000"
     depends_on :
       - backend
 
   backend :
-    build : ./backend
+    image : amardeepdevops/python-quiz-backend:latest
+    container_name: python-backend-container
     ports :
       - "5000:5000"
     depends_on:
