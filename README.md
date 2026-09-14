@@ -1,813 +1,123 @@
-# 🐍 Python Quiz Application
+# Python Quiz Application — Docker & Jenkins CI/CD
 
-A simple full-stack quiz application built using **HTML, CSS, JavaScript, Python Flask, and MySQL**.
+A full-stack Python Quiz application built with **HTML, CSS, JavaScript, Python Flask, and MySQL**. The application is containerized using Docker and automated through Jenkins CI/CD.
 
-The application is containerized using **Docker** and managed using **Docker Compose**. Jenkins is used to automate Docker image building and pushing images to Docker Hub.
+## Features
 
----
+- Quiz interface with questions and answers
+- Score submission and result display
+- Flask REST API
+- MySQL database
+- Dockerized frontend, backend, and database
+- Jenkins pipeline for build, Docker Hub push, and deployment
 
-## 📌 Project Overview
+## Tech Stack
 
-The Python Quiz application allows users to:
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Python, Flask
+- **Database:** MySQL
+- **DevOps:** Docker, Docker Compose, Jenkins, GitHub, Docker Hub
 
-- Start a quiz.
-- View multiple-choice questions.
-- Submit answers.
-- Calculate the final score.
-- Store questions and scores in a MySQL database.
-
-The project contains three main services:
+## Architecture
 
 ```text
 User
-  |
-  | http://localhost:3000
-  ↓
+ |
+ | Port 3000
+ v
 Frontend Container
-HTML / CSS / JavaScript
-  |
-  | REST API requests
-  ↓
+ |
+ | API Port 5000
+ v
 Backend Container
-Python + Flask
-  |
-  | MySQL connection
-  ↓
-MySQL Database Container
+ |
+ | MySQL Port 3306
+ v
+MySQL Container
 ```
 
----
+## Run Locally
 
-## ✨ Features
-
-- Simple quiz interface.
-- Multiple-choice questions.
-- Score calculation.
-- Flask REST APIs.
-- MySQL database integration.
-- Dockerized frontend.
-- Dockerized backend.
-- MySQL container.
-- Docker Compose for running all services.
-- Jenkins CI/CD pipeline.
-- Docker Hub image push.
-- Backend health-check API.
-
----
-
-## 🛠️ Technologies Used
-
-| Technology | Purpose |
-|---|---|
-| HTML | Frontend structure |
-| CSS | Frontend design |
-| JavaScript | Frontend functionality |
-| Python | Backend programming |
-| Flask | REST API development |
-| MySQL | Database |
-| Docker | Containerization |
-| Docker Compose | Managing multiple containers |
-| Jenkins | CI/CD automation |
-| Git and GitHub | Source-code management |
-| Docker Hub | Docker image registry |
-
----
-
-## 🏗️ Application Architecture
-
-```text
-                         User
-                           |
-                           | HTTP :3000
-                           ↓
-                +----------------------+
-                |  Frontend Container  |
-                |                      |
-                | HTML / CSS / JS      |
-                | Static Web Server    |
-                +----------+-----------+
-                           |
-                           | REST API :5000
-                           ↓
-                +----------------------+
-                |  Backend Container   |
-                |                      |
-                | Python + Flask       |
-                | REST APIs            |
-                +----------+-----------+
-                           |
-                           | MySQL :3306
-                           ↓
-                +----------------------+
-                |   MySQL Container    |
-                |                      |
-                |      quiz_db         |
-                | Questions / Scores   |
-                +----------------------+
-
-                    Docker Network
-```
-
-### Architecture Explanation
-
-1. The user opens the frontend application.
-2. The frontend runs on port `3000`.
-3. JavaScript sends API requests to the Flask backend.
-4. The Flask backend runs on port `5000`.
-5. The backend communicates with MySQL on port `3306`.
-6. MySQL stores quiz questions and scores.
-7. The backend sends the response to the frontend.
-8. The frontend displays the quiz and final result.
-
----
-
-## 📂 Project Structure
-
-```text
-Python-Quiz/
-│
-├── backend/
-│   ├── app.py
-│   ├── database.py
-│   ├── requirements.txt
-│   └── Dockerfile
-│
-├── database/
-│   └── init.sql
-│
-├── frontend/
-│   ├── index.html
-│   ├── quiz.html
-│   ├── result.html
-│   ├── style.css
-│   ├── app.js
-│   └── Dockerfile
-│
-├── docker-compose.yml
-├── Jenkinsfile
-├── .gitignore
-└── README.md
-```
-
-> The database SQL file name and location must match the path configured in `docker-compose.yml`.
-
----
-
-## ⚙️ Prerequisites
-
-Install the following software:
-
-- Git
-- Docker
-- Docker Compose
-
-Check the installation:
-
-```bash
-git --version
-docker --version
-docker compose version
-```
-
-If your system uses the older Compose command, use:
-
-```bash
-docker-compose --version
-```
-
----
-
-# ▶️ Run the Project Locally
-
-## 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/AmardeepSingh-06/Python-Quiz.git
-```
-
-## 2. Enter the Project Directory
-
-```bash
 cd Python-Quiz
 ```
 
-## 3. Check the Files
-
-```bash
-ls
-```
-
-Expected files and folders:
-
-```text
-backend
-database
-frontend
-docker-compose.yml
-Jenkinsfile
-README.md
-```
-
-## 4. Build and Start the Application
-
-Using the latest Docker Compose command:
+### 2. Start the application
 
 ```bash
 docker compose up -d --build
 ```
 
-Or, if your system uses the older command:
-
-```bash
-docker-compose up -d --build
-```
-
-### Command Explanation
-
-```bash
-docker compose up
-```
-
-Starts the services defined in `docker-compose.yml`.
-
-```bash
--d
-```
-
-Runs the containers in the background.
-
-```bash
---build
-```
-
-Builds the Docker images before starting the containers.
-
-## 5. Check the Containers
-
-```bash
-docker compose ps
-```
-
-Or:
-
-```bash
-docker ps
-```
-
-You should see the frontend, backend, and database containers running.
-
-## 6. Open the Application
-
-Open the following URL in your browser:
+### 3. Open in browser
 
 ```text
 http://localhost:3000
 ```
 
----
-
-# 🔌 Backend API Testing
-
-The backend runs on port `5000`.
-
-## Health Check API
-
-```http
-GET /health
-```
-
-Test it using:
-
-```bash
-curl http://localhost:5000/health
-```
-
-Expected response:
-
-```json
-{
-  "status": "ok"
-}
-```
-
-## Questions API
-
-```http
-GET /questions
-```
-
-Test it using:
-
-```bash
-curl http://localhost:5000/questions
-```
-
-This API returns quiz questions from the MySQL database.
-
-## Scores API
-
-```http
-POST /scores
-```
-
-This API stores the user’s quiz score in the MySQL database.
-
-The exact request body depends on the implementation in `backend/app.py`.
-
----
-
-# 🗄️ Database Setup
-
-The project uses MySQL as the database.
-
-The database name is:
-
-```text
-quiz_db
-```
-
-The database contains tables such as:
-
-```text
-players
-questions
-scores
-```
-
-The SQL initialization file is automatically executed when the MySQL container is created for the first time.
-
-Example Docker Compose configuration:
-
-```yaml
-volumes:
-  - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-```
-
-This means:
-
-- `./database/init.sql` is the SQL file in the project.
-- `/docker-entrypoint-initdb.d/init.sql` is the location inside the MySQL container.
-- MySQL executes the SQL file during initial database setup.
-
-### Important
-
-The backend should connect to the MySQL service using the Docker Compose service name.
-
-Example:
-
-```env
-DB_HOST=database
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=your_mysql_password
-DB_NAME=quiz_db
-```
-
-Inside Docker, use:
-
-```text
-database
-```
-
-as the database host instead of:
-
-```text
-localhost
-```
-
-### Why?
-
-Inside a container, `localhost` refers to that same container. Docker service names allow containers to communicate with each other.
-
-```text
-Backend container → database service → MySQL container
-```
-
----
-
-# 🔄 Application Flow
-
-```text
-1. User opens http://localhost:3000
-                    |
-                    ↓
-2. Frontend loads HTML, CSS and JavaScript
-                    |
-                    ↓
-3. Frontend requests questions from Flask
-                    |
-                    ↓
-4. Flask receives GET /questions
-                    |
-                    ↓
-5. Flask fetches questions from MySQL
-                    |
-                    ↓
-6. MySQL returns the questions
-                    |
-                    ↓
-7. Flask sends the response to frontend
-                    |
-                    ↓
-8. User answers the quiz
-                    |
-                    ↓
-9. Frontend sends the score to Flask
-                    |
-                    ↓
-10. Flask stores the score in MySQL
-                    |
-                    ↓
-11. Frontend displays the final result
-```
-
----
-
-# 🐳 Docker Services
-
-| Service | Purpose | Port |
-|---|---|---|
-| Frontend | Serves the quiz interface | `3000` |
-| Backend | Provides REST APIs | `5000` |
-| Database | Stores quiz data | `3306` |
-
-Docker Compose creates a network so that the services can communicate with each other.
-
----
-
-# 🧰 Useful Docker Commands
-
-## View Running Services
+### 4. Check running containers
 
 ```bash
 docker compose ps
 ```
 
-## View All Containers
+## Stop the Application
 
 ```bash
-docker ps -a
+docker compose down
 ```
 
-## View Logs of All Services
+## Jenkins CI/CD Flow
 
-```bash
-docker compose logs
+```text
+GitHub Push
+    ↓
+Jenkins Pipeline
+    ↓
+Checkout Code
+    ↓
+Build Docker Images
+    ↓
+Push Images to Docker Hub
+    ↓
+Deploy Application
 ```
 
-## View Backend Logs
+Docker images:
 
-```bash
-docker compose logs backend
+```text
+amardeepdevops/python-quiz-backend:latest
+amardeepdevops/python-quiz-frontend:latest
 ```
 
-## View Frontend Logs
+## DevOps Concepts Demonstrated
+
+- Git and GitHub
+- Docker and Docker Compose
+- Container networking
+- Environment variables
+- Jenkins CI/CD
+- Docker Hub
+- Automated image build and push
+- Application deployment on AWS EC2
+
+## Useful Commands
 
 ```bash
-docker compose logs frontend
-```
-
-## View Database Logs
-
-```bash
-docker compose logs database
-```
-
-## Follow Logs in Real Time
-
-```bash
+docker compose up -d --build
+docker compose ps
 docker compose logs -f
-```
-
-## Stop Containers
-
-```bash
-docker compose stop
-```
-
-## Start Existing Containers
-
-```bash
-docker compose start
-```
-
-## Stop and Remove Containers
-
-```bash
 docker compose down
-```
-
-## Rebuild and Start Containers
-
-```bash
-docker compose up -d --build
-```
-
-## Rebuild Without Cache
-
-```bash
-docker compose build --no-cache
-docker compose up -d
-```
-
-## View Docker Images
-
-```bash
 docker images
 ```
 
-## View Docker Networks
+## Author
 
-```bash
-docker network ls
-```
+**Amardeep Singh**
 
-## Enter the Backend Container
-
-```bash
-docker compose exec backend sh
-```
-
-## Enter the MySQL Container
-
-```bash
-docker compose exec database bash
-```
-
-## Remove Containers and Volumes
-
-```bash
-docker compose down -v
-```
-
-> Be careful with this command because removing volumes can delete the stored MySQL data.
-
----
-
-# 🔁 Jenkins CI/CD Pipeline
-
-Jenkins automates the Docker image build and push process.
-
-The pipeline flow is:
-
-```text
-Developer pushes code to GitHub
-                |
-                ↓
-          GitHub Webhook
-                |
-                ↓
-          Jenkins Pipeline
-                |
-                ↓
-          Checkout Code
-                |
-                ↓
-       Build Backend Image
-                |
-                ↓
-       Build Frontend Image
-                |
-                ↓
-          Docker Login
-                |
-                ↓
-       Push Images to Docker Hub
-```
-
-## Jenkins Pipeline Stages
-
-### 1. Checkout
-
-Jenkins downloads the latest source code from GitHub.
-
-```groovy
-checkout scm
-```
-
-### 2. Build Backend Image
-
-```bash
-docker build -t python-quiz-backend:latest ./backend
-```
-
-### 3. Build Frontend Image
-
-```bash
-docker build -t python-quiz-frontend:latest ./frontend
-```
-
-### 4. Tag Images
-
-```bash
-docker tag python-quiz-backend:latest amardeepdevops/python-quiz-backend:latest
-docker tag python-quiz-frontend:latest amardeepdevops/python-quiz-frontend:latest
-```
-
-### 5. Push Images to Docker Hub
-
-```bash
-docker push amardeepdevops/python-quiz-backend:latest
-docker push amardeepdevops/python-quiz-frontend:latest
-```
-
----
-
-# 🔐 Jenkins Credentials
-
-Docker Hub credentials should not be written directly inside the Jenkinsfile.
-
-Create a Jenkins credential with:
-
-```text
-Credential Type: Username with password
-Credential ID: dockerhub-creds
-Username: Your Docker Hub username
-Password: Your Docker Hub password or access token
-```
-
-Use it in the Jenkinsfile like this:
-
-```groovy
-withCredentials([
-    usernamePassword(
-        credentialsId: 'dockerhub-creds',
-        usernameVariable: 'DOCKER_USERNAME',
-        passwordVariable: 'DOCKER_PASSWORD'
-    )
-]) {
-    sh '''
-        echo "$DOCKER_PASSWORD" | docker login \
-        -u "$DOCKER_USERNAME" \
-        --password-stdin
-
-        docker push amardeepdevops/python-quiz-backend:latest
-        docker push amardeepdevops/python-quiz-frontend:latest
-    '''
-}
-```
-
-This keeps the Docker Hub password secure.
-
----
-
-# 🌐 GitHub Webhook Flow
-
-When GitHub webhook is configured with Jenkins:
-
-```text
-Developer changes code
-          |
-          ↓
-git add .
-git commit -m "Updated quiz"
-git push origin main
-          |
-          ↓
-GitHub sends webhook to Jenkins
-          |
-          ↓
-Jenkins starts the pipeline
-          |
-          ↓
-Docker images are built
-          |
-          ↓
-Images are pushed to Docker Hub
-```
-
----
-
-# ☁️ Deployment Flow
-
-The Docker images can later be deployed on an AWS EC2 instance.
-
-```text
-Developer
-   |
-   ↓
-GitHub
-   |
-   ↓
-Jenkins
-   |
-   ↓
-Docker Build
-   |
-   ↓
-Docker Hub
-   |
-   ↓
-AWS EC2
-   |
-   ↓
-Docker Compose
-   |
-   ↓
-Running Application
-```
-
-On the EC2 server, the deployment commands can be:
-
-```bash
-docker login
-docker compose pull
-docker compose up -d
-```
-
-The EC2 instance should have:
-
-- Docker installed.
-- Docker Compose installed.
-- Required ports allowed in the security group.
-- Correct environment variables.
-- Access to Docker Hub.
-
----
-
-# 🧪 Troubleshooting
-
-## Check Backend Logs
-
-```bash
-docker compose logs backend
-```
-
-## Check Frontend Logs
-
-```bash
-docker compose logs frontend
-```
-
-## Check Database Logs
-
-```bash
-docker compose logs database
-```
-
-## Check Whether Ports Are Already in Use
-
-```bash
-sudo ss -tulpn | grep -E '3000|5000|3306'
-```
-
-## Restart All Services
-
-```bash
-docker compose restart
-```
-
-## Rebuild the Application
-
-```bash
-docker compose down
-docker compose up -d --build
-```
-
-## Check Running Containers
-
-```bash
-docker ps
-```
-
-## Check Docker Images
-
-```bash
-docker images
-```
-
----
-
-# 📚 DevOps Concepts Demonstrated
-
-This project demonstrates:
-
-- Git and GitHub.
-- Dockerfile creation.
-- Docker image building.
-- Docker containers.
-- Docker networks.
-- Docker volumes.
-- Docker Compose.
-- Multi-container application setup.
-- Environment variables.
-- Container-to-container communication.
-- MySQL initialization.
-- Jenkins pipeline.
-- Jenkins credentials.
-- GitHub webhook.
-- Docker Hub registry.
-- CI/CD automation.
-- Application health checks.
-- AWS EC2 deployment concepts.
-
----
-
-# 🎯 Interview Explanation
-
-You can explain the project in an interview like this:
-
-> I developed a full-stack Python Quiz application using HTML, CSS, JavaScript, Flask, and MySQL. I containerized the frontend, backend, and database using Docker. Docker Compose manages all the services and provides networking between the containers. The frontend communicates with the Flask backend through REST APIs, and the backend stores quiz questions and scores in MySQL. I also created a Jenkins CI/CD pipeline that checks out the code from GitHub, builds separate Docker images for the frontend and backend, logs in securely to Docker Hub using Jenkins credentials, and pushes the images to the registry. This project helped me understand Docker, networking, environment variables, Jenkins, CI/CD, and deployment concepts.
+GitHub: https://github.com/AmardeepSingh-06and provides networking between the containers. The frontend communicates with the Flask backend through REST APIs, and the backend stores quiz questions and scores in MySQL. I also created a Jenkins CI/CD pipeline that checks out the code from GitHub, builds separate Docker images for the frontend and backend, logs in securely to Docker Hub using Jenkins credentials, and pushes the images to the registry. This project helped me understand Docker, networking, environment variables, Jenkins, CI/CD, and deployment concepts.
 
 ---
 
